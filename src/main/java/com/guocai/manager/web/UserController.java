@@ -26,7 +26,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/user")
-@Api(value = "用户信息操作", description = "用户信息操作")
+@Api(value = "用户信息操作")
 public class UserController {
 
     @Autowired
@@ -59,8 +59,8 @@ public class UserController {
             // @ApiImplicitParam(name = "access_token", value = "请求token", required = true, paramType = "header", dataType = "String"),
     })
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "添加医院操作成功！", response = ResponseMessage.class),
-            @ApiResponse(code = 500, message = "添加医院操作失败！")
+            @ApiResponse(code = 200, message = "添加用户信息操作成功！", response = ResponseMessage.class),
+            @ApiResponse(code = 500, message = "添加用户信息操作失败！")
     })
     public ResponseMessage addUser(@RequestBody User user) {
         boolean flag = iUserService.insert(user.setId(WorkId.nextId()));

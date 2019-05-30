@@ -36,7 +36,7 @@ public class User extends Model<User> {
     /**
      * 密码
      */
-    @ApiModelProperty(value = "密码", example = "pass234")
+    @ApiModelProperty(value = "密码", example = "pass1234")
     private String password;
 
     /**

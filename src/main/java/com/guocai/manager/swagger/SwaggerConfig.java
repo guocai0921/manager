@@ -33,10 +33,10 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("janis Manage Swagger RESTful APIs")
+        return new ApiInfoBuilder().title("Manager Swagger RESTful APIs")
                 .description("综合管理 Swagger API 服务")
                 .termsOfServiceUrl("http://swagger.io/")
-                .contact(new Contact("janis", "127.0.0.1", "janis@163.com.cn"))
+                .contact(new Contact("Sun GuoCai", "127.0.0.1", "15010503631@163.com.cn"))
                 .version("1.0")
                 .build();
 

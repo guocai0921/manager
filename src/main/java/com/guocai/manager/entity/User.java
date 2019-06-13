@@ -4,8 +4,14 @@ import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * <p>
@@ -17,7 +23,7 @@ import java.io.Serializable;
  */
 @TableName("sgc_user")
 @ApiModel(value = "User", description ="用户信息")
-public class User extends Model<User> {
+public class User extends Model<User> implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
@@ -55,7 +61,7 @@ public class User extends Model<User> {
      * 账户是否可用
      */
     @ApiModelProperty(value = "账户是否可用", example = "1")
-    private Integer enabled;
+    private boolean enabled;
 
     /**
      * 用户名
@@ -80,6 +86,10 @@ public class User extends Model<User> {
      */
     @ApiModelProperty(value = "用户名", example = "无")
     private String remark;
+
+
+    private List<Role> roles;
+
 
     public String getId() {
         return id;
@@ -126,11 +136,11 @@ public class User extends Model<User> {
         return this;
     }
 
-    public Integer getEnabled() {
+    public boolean getEnabled() {
         return enabled;
     }
 
-    public User setEnabled(Integer enabled) {
+    public User setEnabled(boolean enabled) {
         this.enabled = enabled;
         return this;
     }
@@ -139,9 +149,38 @@ public class User extends Model<User> {
         return username;
     }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
     public User setUsername(String username) {
         this.username = username;
         return this;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+        return authorities;
     }
 
     public String getPassword() {
@@ -176,5 +215,11 @@ public class User extends Model<User> {
         return this.id;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
 
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
 }

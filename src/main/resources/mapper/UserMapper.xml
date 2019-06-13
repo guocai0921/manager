@@ -16,4 +16,8 @@
         <result column="remark" property="remark" />
     </resultMap>
 
+    <select id="loadUserByUsername" resultMap="lazyLoadRoles">
+        select * from sgc_user WHERE username=#{username};
+    </select>
+
 </mapper>

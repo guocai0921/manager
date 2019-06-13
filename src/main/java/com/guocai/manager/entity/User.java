@@ -9,11 +9,11 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
- * @author Mht
- * @since 2019-05-29
+ * @author Sun GuoCai
+ * @since 2019-06-07
  */
 @TableName("sgc_user")
 @ApiModel(value = "User", description ="用户信息")
@@ -31,37 +31,55 @@ public class User extends Model<User> {
      * 姓名
      */
     @ApiModelProperty(value = "姓名", example = "孙国财")
-    private String userName;
+    private String name;
+
+    /**
+     * 手机号码
+     */
+    @ApiModelProperty(value = "手机号码", example = "15010503631")
+    private String phone;
+
+    /**
+     * 住宅电话
+     */
+    @ApiModelProperty(value = "住宅电话", example = "(0314)6499255")
+    private String telephone;
+
+    /**
+     * 联系地址
+     */
+    @ApiModelProperty(value = "联系地址", example = "钓鱼公馆201")
+    private String address;
+
+    /**
+     * 账户是否可用
+     */
+    @ApiModelProperty(value = "账户是否可用", example = "1")
+    private Integer enabled;
+
+    /**
+     * 用户名
+     */
+    @ApiModelProperty(value = "用户名", example = "guocai0921")
+    private String username;
 
     /**
      * 密码
      */
-    @ApiModelProperty(value = "密码", example = "pass1234")
+    @ApiModelProperty(value = "用户名", example = "Pass1234")
     private String password;
 
     /**
-     * 部门ID
+     * 用户头像
      */
-    @ApiModelProperty(value = "部门ID", example = "1")
-    private Integer orgId;
+    @ApiModelProperty(value = "用户名", example = "http://47.105.166.201/images/2019/06/06/1559825126859712.png")
+    private String userface;
 
     /**
-     * 年龄
+     * 备注
      */
-    @ApiModelProperty(value = "年龄", example = "23", allowableValues = "range[0, 150]")
-    private Integer age;
-
-    /**
-     * 性别(0:女，1：男)
-     */
-    @ApiModelProperty(value = "性别", example = "1", allowableValues = "0, 1")
-    private String gender;
-
-    /**
-     * 地址
-     */
-    @ApiModelProperty(value = "地址", example = "泰康创新中心")
-    private String address;
+    @ApiModelProperty(value = "用户名", example = "无")
+    private String remark;
 
     public String getId() {
         return id;
@@ -72,48 +90,30 @@ public class User extends Model<User> {
         return this;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public User setUserName(String userName) {
-        this.userName = userName;
+    public User setName(String name) {
+        this.name = name;
         return this;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPhone() {
+        return phone;
     }
 
-    public User setPassword(String password) {
-        this.password = password;
+    public User setPhone(String phone) {
+        this.phone = phone;
         return this;
     }
 
-    public Integer getOrgId() {
-        return orgId;
+    public String getTelephone() {
+        return telephone;
     }
 
-    public User setOrgId(Integer orgId) {
-        this.orgId = orgId;
-        return this;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public User setAge(Integer age) {
-        this.age = age;
-        return this;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public User setGender(String gender) {
-        this.gender = gender;
+    public User setTelephone(String telephone) {
+        this.telephone = telephone;
         return this;
     }
 
@@ -126,8 +126,55 @@ public class User extends Model<User> {
         return this;
     }
 
+    public Integer getEnabled() {
+        return enabled;
+    }
+
+    public User setEnabled(Integer enabled) {
+        this.enabled = enabled;
+        return this;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public User setUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public User setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public String getUserface() {
+        return userface;
+    }
+
+    public User setUserface(String userface) {
+        this.userface = userface;
+        return this;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public User setRemark(String remark) {
+        this.remark = remark;
+        return this;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
     }
+
+
 }

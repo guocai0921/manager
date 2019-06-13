@@ -46,9 +46,9 @@ public class UserController {
     })
     public ResponseMessage getUserList(@ApiIgnore @Valid UserBO userBO) {
         EntityWrapper<User> entityWrapper = new EntityWrapper<User>();
-        entityWrapper.like("user_name", userBO.getUserName());
+        entityWrapper.like("username", userBO.getUsername());
         Page<User> users = iUserService.selectPage(new Page<>(userBO.getPageNo(), userBO.getPageSize()), entityWrapper);
-        return ResponseMessage.build().setData(users);
+        return ResponseMessage.ok("查询用户信息成功!", users);
     }
 
 
@@ -64,7 +64,7 @@ public class UserController {
     })
     public ResponseMessage addUser(@RequestBody User user) {
         boolean flag = iUserService.insert(user.setId(WorkId.nextId()));
-        return ResponseMessage.build().setData(flag);
+        return ResponseMessage.ok("添加用户信息成功!", flag);
     }
 
     @Transactional
@@ -74,12 +74,12 @@ public class UserController {
             // @ApiImplicitParam(name = "access_token", value = "请求token", required = true, paramType = "header", dataType = "String"),
     })
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "修改医院操作成功！", response = ResponseMessage.class),
-            @ApiResponse(code = 500, message = "修改医院操作失败！")
+            @ApiResponse(code = 200, message = "修改用户信息操作成功！", response = ResponseMessage.class),
+            @ApiResponse(code = 500, message = "修改用户信息操作失败！")
     })
     public ResponseMessage editUser(@RequestBody User user) {
         boolean flag = iUserService.updateById(user);
-        return ResponseMessage.build().setData(flag);
+        return ResponseMessage.ok("修改用户信息成功!", flag);
     }
 
     @Transactional
@@ -90,12 +90,12 @@ public class UserController {
             @ApiImplicitParam(name = "id", value = "用户ID\n(例:583326487252303872)", required = true, paramType = "query", dataType = "String")
     })
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "维护医院操作成功！", response = ResponseMessage.class),
-            @ApiResponse(code = 500, message = "维护医院操作失败！")
+            @ApiResponse(code = 200, message = "删除用户信息操作成功！", response = ResponseMessage.class),
+            @ApiResponse(code = 500, message = "删除用户信息操作失败！")
     })
     public ResponseMessage deleteUser(@ApiIgnore @Valid User user) {
         boolean flag = iUserService.deleteById(user.getId());
-        return ResponseMessage.build().setData(flag);
+        return ResponseMessage.ok("删除用户信息成功!", flag);
     }
 
 

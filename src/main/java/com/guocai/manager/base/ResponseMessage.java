@@ -13,212 +13,64 @@ import org.apache.commons.lang3.StringUtils;
  * @Create: 2019-05-29 15:07
  */
 public class ResponseMessage {
+    private Integer status;
+    private String msg;
+    private Object obj;
 
-    /**
-     * Response 消息
-     */
-    private String message;
-
-    /**
-     * Response 状态码
-     */
-    private String status;
-
-    /**
-     * Response 数据
-     */
-    private Object data;
-
-    /**
-     * 通话令牌
-     */
-    private String token;
-
-    private String index;
-    private String total;
-    private String persize;
-    private String totalPages;
-    private String uuid;
-    private String phoneVCode;
+    private ResponseMessage() {
+    }
 
     public static ResponseMessage build() {
         return new ResponseMessage();
     }
 
-    public String toJSON() {
-
-        StringBuffer sb = new StringBuffer();
-        sb.append("{");
-
-        if (StringUtils.isNotBlank(this.status)) {
-            sb.append("\"status\":\"").append(status).append("\",");
-        }
-        if (StringUtils.isNotBlank(this.message)) {
-            sb.append("\"message\":\"").append(message).append("\",");
-        }
-        if (StringUtils.isNotBlank(this.token)) {
-            sb.append("\"token\":\"").append(token).append("\",");
-        }
-        if (StringUtils.isNotBlank(this.uuid)) {
-            sb.append("\"uuid\":\"").append(uuid).append("\",");
-        }
-        if (StringUtils.isNotBlank(this.phoneVCode)) {
-            sb.append("\"phoneVCode\":\"").append(phoneVCode).append("\",");
-        }
-        if (this.data != null) {
-            JsonMapper jm = new JsonMapper();
-            sb.append("\"data\":").append(jm.toJson(data)).append(",");
-        }
-        if (StringUtils.isNotBlank(this.index)) {
-            sb.append("\"index\":\"").append(index).append("\",");
-        }
-        if (StringUtils.isNotBlank(this.total)) {
-            sb.append("\"total\":\"").append(total).append("\",");
-        }
-        if (StringUtils.isNotBlank(this.persize)) {
-            sb.append("\"persize\":\"").append(persize).append("\",");
-        }
-        if (StringUtils.isNotBlank(this.totalPages)) {
-            sb.append("\"totalPages\":\"").append(totalPages).append("\",");
-        }
-
-        sb.append("}");
-        String result = sb.toString();
-        if (result.lastIndexOf(",") == -1) {
-            return result;
-        }
-        return result.substring(0, result.lastIndexOf(",")).concat(result.substring(result.lastIndexOf(",") + 1));
+    public static ResponseMessage ok(String msg, Object obj) {
+        return new ResponseMessage(200, msg, obj);
     }
 
-    public String toJSON(String withEmptyStr) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("{");
-
-        if (StringUtils.isNotBlank(this.status)) {
-            sb.append("\"status\":\"").append(status).append("\",");
-        }
-        if (StringUtils.isNotBlank(this.message)) {
-            sb.append("\"message\":\"").append(message).append("\",");
-        }
-        if (StringUtils.isNotBlank(this.token)) {
-            sb.append("\"token\":\"").append(token).append("\",");
-        }
-        if (StringUtils.isNotBlank(this.uuid)) {
-            sb.append("\"uuid\":\"").append(uuid).append("\",");
-        }
-        if (StringUtils.isNotBlank(this.phoneVCode)) {
-            sb.append("\"phoneVCode\":\"").append(phoneVCode).append("\",");
-        }
-        if (this.data != null) {
-            JsonMapper jm = new JsonMapper();
-            sb.append("\"data\":").append(jm.toJsonWithEmptyStr(data)).append(",");
-        }
-        if (StringUtils.isNotBlank(this.index)) {
-            sb.append("\"index\":\"").append(index).append("\",");
-        }
-        if (StringUtils.isNotBlank(this.total)) {
-            sb.append("\"total\":\"").append(total).append("\",");
-        }
-        if (StringUtils.isNotBlank(this.persize)) {
-            sb.append("\"persize\":\"").append(persize).append("\",");
-        }
-        if (StringUtils.isNotBlank(this.totalPages)) {
-            sb.append("\"totalPages\":\"").append(totalPages).append("\",");
-        }
-
-        sb.append("}");
-        String result = sb.toString();
-        return result.substring(0, result.lastIndexOf(",")).concat(result.substring(result.lastIndexOf(",") + 1));
-
+    public static ResponseMessage ok(String msg) {
+        return new ResponseMessage(200, msg, null);
     }
 
-    public String getStatus() {
+    public static ResponseMessage error(String msg, Object obj) {
+        return new ResponseMessage(500, msg, obj);
+    }
+
+    public static ResponseMessage error(String msg) {
+        return new ResponseMessage(500, msg, null);
+    }
+
+    private ResponseMessage(Integer status, String msg, Object obj) {
+        this.status = status;
+        this.msg = msg;
+        this.obj = obj;
+    }
+
+    public Integer getStatus() {
+
         return status;
     }
 
-    public ResponseMessage setStatus(String status) {
+    public ResponseMessage setStatus(Integer status) {
         this.status = status;
         return this;
     }
 
-    public Object getData() {
-        return data;
+    public String getMsg() {
+        return msg;
     }
 
-    public ResponseMessage setData(Object data) {
-        this.data = data;
+    public ResponseMessage setMsg(String msg) {
+        this.msg = msg;
         return this;
     }
 
-    public String getIndex() {
-        return index;
+    public Object getObj() {
+        return obj;
     }
 
-    public ResponseMessage setIndex(String index) {
-        this.index = index;
-        return this;
-    }
-
-    public String getTotal() {
-        return total;
-    }
-
-    public ResponseMessage setTotal(String total) {
-        this.total = total;
-        return this;
-    }
-
-    public String getPersize() {
-        return persize;
-    }
-
-    public ResponseMessage setPersize(String persize) {
-        this.persize = persize;
-        return this;
-    }
-
-    public String getTotalPages() {
-        return totalPages;
-    }
-
-    public ResponseMessage setTotalPages(String totalPages) {
-        this.totalPages = totalPages;
-        return this;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public ResponseMessage setMessage(String message) {
-        this.message = message;
-        return this;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public ResponseMessage setToken(String token) {
-        this.token = token;
-        return this;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public ResponseMessage setUuid(String uuid) {
-        this.uuid = uuid;
-        return this;
-    }
-
-    public String getPhoneVCode() {
-        return phoneVCode;
-    }
-
-    public ResponseMessage setPhoneVCode(String phoneVCode) {
-        this.phoneVCode = phoneVCode;
+    public ResponseMessage setObj(Object obj) {
+        this.obj = obj;
         return this;
     }
 }

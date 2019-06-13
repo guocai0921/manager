@@ -50,7 +50,7 @@ public class DeptController {
         entityWrapper.like("dept_name", deptBO.getDeptName());
         entityWrapper.orderBy("dept_id");
         Page<Dept> depts = iDeptService.selectPage(new Page<>(deptBO.getPageNo(), deptBO.getPageSize()), entityWrapper);
-        return ResponseMessage.build().setData(depts);
+        return ResponseMessage.ok("查询部门信息成功!", depts);
     }
 
     @Transactional
@@ -65,7 +65,7 @@ public class DeptController {
     })
     public ResponseMessage addUser(@RequestBody Dept dept) {
         boolean flag = iDeptService.insert(dept.setDeptId(WorkId.nextId()));
-        return ResponseMessage.build().setData(flag);
+        return ResponseMessage.ok("添加部门信息操作成功！", flag);
     }
 
 }

@@ -16,7 +16,9 @@ import java.util.List;
 
 
 /**
- *
+ * @description: 通过当前的请求地址，获取该地址需要的用户角色
+ * @auther: Sun GuoCai
+ * @datetime: 2019/6/14 8:18
  */
 @Component
 public class CustomMetadataSource implements FilterInvocationSecurityMetadataSource{
@@ -28,7 +30,7 @@ public class CustomMetadataSource implements FilterInvocationSecurityMetadataSou
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
         List<Menu> allMenu = menuService.getAllMenu();
         for (Menu menu : allMenu) {
-            if (antPathMatcher.match(menu.getUrl(), requestUrl)
+            if (antPathMatcher.match(menu.getUrl()!=null ? menu.getUrl() : "/", requestUrl)
                     &&menu.getRoles().size()>0) {
                 List<Role> roles = menu.getRoles();
                 int size = roles.size();

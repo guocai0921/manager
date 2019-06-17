@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guocai.manager.mapper.DepartmentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.guocai.manager.entity.Department">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="parentId" property="parentId" />
+        <result column="depPath" property="depPath" />
+        <result column="enabled" property="enabled" />
+        <result column="isParent" property="isParent" />
+        <collection property="children" ofType="com.guocai.manager.entity.Department" select="com.guocai.manager.mapper.DepartmentMapper.getDepByPid" column="id">
+        </collection>
+    </resultMap>
+
+    <select id="getDepByPid" resultMap="BaseResultMap">
+        select d1.*from sgc_department d1 where d1.`parentId`=#{pid} AND d1.enabled=true;
+    </select>
+
+</mapper>

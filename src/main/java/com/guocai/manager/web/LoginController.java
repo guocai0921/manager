@@ -21,7 +21,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class LoginController {
 
-    @PostMapping("/login")
+    @RequestMapping("/login_p")
+    public ResponseMessage login() {
+        return ResponseMessage.error("尚未登录，请登录!");
+    }
+
+    @PostMapping("/login_user")
     @Transactional
     @ApiOperation(value = "用户信息维护添加接口", notes = "用户信息维护添加接口", httpMethod = "POST")
     @ApiImplicitParams({

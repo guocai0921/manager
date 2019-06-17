@@ -30,7 +30,11 @@ public class Menu extends Model<Menu> {
 
     private String iconCls;
 
-    private Integer parentId;
+    private String keepAlive;
+
+    private String requireAuth;
+
+    private String parentId;
 
     private Integer enabled;
 
@@ -98,11 +102,31 @@ public class Menu extends Model<Menu> {
     public void setIconCls(String iconCls) {
         this.iconCls = iconCls;
     }
-    public Integer getParentId() {
+
+
+    public String getKeepAlive() {
+        return keepAlive;
+    }
+
+    public Menu setKeepAlive(String keepAlive) {
+        this.keepAlive = keepAlive;
+        return this;
+    }
+
+    public String getRequireAuth() {
+        return requireAuth;
+    }
+
+    public Menu setRequireAuth(String requireAuth) {
+        this.requireAuth = requireAuth;
+        return this;
+    }
+
+    public String getParentId() {
         return parentId;
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(String parentId) {
         this.parentId = parentId;
     }
     public Integer getEnabled() {

@@ -29,7 +29,7 @@
             <result column="component2" property="component" jdbcType="VARCHAR"/>
             <result column="name2" property="name" jdbcType="VARCHAR"/>
             <result column="iconCls2" property="iconCls" jdbcType="VARCHAR"/>
-            <association property="meta" javaType="org.sang.bean.MenuMeta">
+            <association property="meta" javaType="com.guocai.manager.entity.MenuMeta">
                 <result column="keepAlive2" property="keepAlive"/>
                 <result column="requireAuth2" property="requireAuth"/>
             </association>
@@ -54,6 +54,10 @@
         m.`enabled` = TRUE
       ORDER BY
         m.`id` DESC
+    </select>
+
+    <select id="getMenusByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT	m1.`id`, m1.`path`,	m1.`component`,	m1.`iconCls`,	m1.`name`,	m1.`requireAuth`,	m2.`component` AS component2,	m2.`iconCls` AS iconCls2,	m2.`keepAlive` AS keepAlive2,	m2.`name` AS name2,	m2.`path` AS path2,	m2.`requireAuth` AS requireAuth2 FROM	sgc_menu m1,	sgc_menu m2 WHERE	m1.`id` = m2.`parentId` 	AND m1.`id` != '589122727978205184' 	AND m2.`id` IN (	SELECT		mr.`mid` 	FROM		sgc_user_role h_r,		sgc_menu_role mr 	WHERE	h_r.`rid` = mr.`rid` AND h_r.`uid` = #{hrId}) and m2.`enabled`=true order by m1.`id`,m2.`id`
     </select>
 
 </mapper>

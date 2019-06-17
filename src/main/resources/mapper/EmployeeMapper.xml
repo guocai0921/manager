@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guocai.manager.mapper.EmployeeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.guocai.manager.entity.Employee">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="gender" property="gender" />
+        <result column="birthday" property="birthday" />
+        <result column="idCard" property="idCard" />
+        <result column="wedlock" property="wedlock" />
+        <result column="nationId" property="nationId" />
+        <result column="nativePlace" property="nativePlace" />
+        <result column="politicId" property="politicId" />
+        <result column="email" property="email" />
+        <result column="phone" property="phone" />
+        <result column="address" property="address" />
+        <result column="departmentId" property="departmentId" />
+        <result column="jobLevelId" property="jobLevelId" />
+        <result column="posId" property="posId" />
+        <result column="engageForm" property="engageForm" />
+        <result column="tiptopDegree" property="tiptopDegree" />
+        <result column="specialty" property="specialty" />
+        <result column="school" property="school" />
+        <result column="beginDate" property="beginDate" />
+        <result column="workState" property="workState" />
+        <result column="workID" property="workID" />
+        <result column="contractTerm" property="contractTerm" />
+        <result column="conversionTime" property="conversionTime" />
+        <result column="notWorkDate" property="notWorkDate" />
+        <result column="beginContract" property="beginContract" />
+        <result column="endContract" property="endContract" />
+        <result column="workAge" property="workAge" />
+        <association property="department" javaType="com.guocai.manager.entity.Department">
+            <id property="id" column="did"/>
+            <result property="name" column="dname"/>
+        </association>
+        <association property="jobLevel" javaType="com.guocai.manager.entity.Joblevel">
+            <id property="id" column="jlid"/>
+            <result property="name" column="jlname"/>
+            <result property="titleLevel" column="jlTitleLevel"/>
+        </association>
+        <association property="nation" javaType="com.guocai.manager.entity.Nation">
+            <id property="id" column="nid"/>
+            <result property="name" column="nname"/>
+        </association>
+        <association property="position" javaType="com.guocai.manager.entity.Position">
+            <id property="id" column="pid"/>
+            <result property="name" column="pname"/>
+        </association>
+        <association property="politicsStatus" javaType="com.guocai.manager.entity.PoliticsStatus">
+            <id property="id" column="psid"/>
+            <result property="name" column="psname"/>
+        </association>
+    </resultMap>
+    
+    <select id="getEmployeeByPage" resultMap="BaseResultMap">
+        SELECT
+            e.*,
+            jl.`id` AS jlid,
+            jl.`name` AS jlname,
+            jl.`titleLevel` AS jlTitleLevel,
+            d.`id` AS did,
+            d.`name` AS dname,
+            n.`id` AS nid,
+            n.`name` AS nname,
+            p.`id` AS pid,
+            p.`name` AS pname,
+            ps.`id` AS psid,
+            ps.`name` AS psname
+        FROM
+            sgc_employee e,
+            sgc_joblevel jl,
+            sgc_department d,
+            sgc_nation n,
+            sgc_position p,
+            sgc_politicsstatus ps
+        WHERE
+            e.`posId` = p.`id`
+            AND e.`jobLevelId` = jl.`id`
+            AND e.`departmentId` = d.id
+            AND e.`nationId` = n.`id`
+            AND e.`politicId` = ps.`id`
+            and e.`name`
+            like concat('%',#{keywords},'%')
+        <if test="engageForm!=null and engageForm!=''">
+            AND e.engageForm=#{engageForm}
+        </if>
+        <if test="politicId!=null and politicId!=''">
+            AND e.politicId=#{politicId}
+        </if>
+        <if test="nationId!=null and nationId!=''">
+            AND e.nationId=#{nationId}
+        </if>
+        <if test="posId!=null and posId!=''">
+            AND e.posId=#{posId}
+        </if>
+        <if test="jobLevelId!=null and jobLevelId!=''">
+            AND e.jobLevelId=#{jobLevelId}
+        </if>
+        <if test="departmentId!=null and departmentId!=''">
+            AND e.departmentId=#{departmentId}
+        </if>
+<!--        <if test="startBeginDate!=null and endBeginDate!=null">
+            AND e.beginDate BETWEEN #{startBeginDate} AND #{endBeginDate}
+        </if>-->
+    </select>
+
+    <select id="getAllNations" resultType="com.guocai.manager.entity.Nation">
+        select * from sgc_nation;
+    </select>
+    <select id="getAllPolitics" resultType="com.guocai.manager.entity.PoliticsStatus">
+        select * from sgc_politicsstatus;
+    </select>
+
+    <select id="getMaxWorkID" resultType="Long">
+        SELECT workID from sgc_employee where id=(select max(id) from sgc_employee)
+    </select>
+
+    <select id="getAllEmployee" resultMap="BaseResultMap">
+    SELECT
+        e.*,
+        jl.`id` AS jlid,
+        jl.`name` AS jlname,
+        jl.`titleLevel` AS jlTitleLevel,
+        d.`id` AS did,
+        d.`name` AS dname,
+        n.`id` AS nid,
+        n.`name` AS nname,
+        p.`id` AS pid,
+        p.`name` AS pname,
+        ps.`id` AS psid,
+        ps.`name` AS psname
+    FROM
+        sgc_employee e,
+        sgc_joblevel jl,
+        sgc_department d,
+        sgc_nation n,
+        sgc_position p,
+        sgc_politicsstatus ps
+    WHERE
+        e.`posId` = p.`id`
+        AND e.`jobLevelId` = jl.`id`
+        AND e.`departmentId` = d.id
+        AND e.`nationId` = n.`id`
+        AND e.`politicId` = ps.`id`
+    </select>
+
+</mapper>

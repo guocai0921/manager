@@ -1,5 +1,6 @@
 package com.guocai.manager.service.impl;
 
+import com.guocai.manager.common.UserUtils;
 import com.guocai.manager.entity.Menu;
 import com.guocai.manager.mapper.MenuMapper;
 import com.guocai.manager.service.IMenuService;
@@ -26,5 +27,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     @Override
     public List<Menu> getAllMenu() {
         return menuMapper.getAllMenu();
+    }
+
+    @Override
+    public List<Menu> getMenusByUserId() {
+        return menuMapper.getMenusByUserId(UserUtils.getCurrentHr().getId());
     }
 }

@@ -15,6 +15,13 @@
         <result column="userface" property="userface" />
         <result column="remark" property="remark" />
     </resultMap>
+    <resultMap id="lazyLoadRoles" type="com.guocai.manager.entity.User" extends="BaseResultMap">
+        <collection property="roles" ofType="com.guocai.manager.entity.Role" select="com.guocai.manager.mapper.UserMapper.getRolesByUserId"
+                    column="id"></collection>
+    </resultMap>
+    <select id="getRolesByUserId" resultType="com.guocai.manager.entity.Role">
+        SELECT r.* FROM sgc_user_role h,sgc_role r where h.rid=r.id AND h.uid=#{id}
+    </select>
 
     <select id="loadUserByUsername" resultMap="lazyLoadRoles">
         select * from sgc_user WHERE username=#{username};

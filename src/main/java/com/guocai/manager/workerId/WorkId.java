@@ -1,5 +1,7 @@
 package com.guocai.manager.workerId;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 /**
  * java类简单作用描述
  *
@@ -20,6 +22,9 @@ public class WorkId {
 
     public static void main(String[] args) {
         System.out.println(WorkId.nextId());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encode = encoder.encode("pass1234");
+        System.out.println(encode);
     }
 
 }

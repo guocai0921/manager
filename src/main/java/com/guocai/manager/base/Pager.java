@@ -15,6 +15,8 @@ import java.io.Serializable;
 public class Pager<T> implements Serializable {
     private Integer pageNo;
     private Integer pageSize;
+    private Integer page;
+    private Integer size;
 
     public Integer getPageNo() {
         return pageNo;
@@ -31,6 +33,24 @@ public class Pager<T> implements Serializable {
 
     public Pager setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+        return this;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public Pager setPage(Integer page) {
+        this.page = page;
+        return this;
+    }
+
+    public Integer getSize() {
+        return size;
+    }
+
+    public Pager setSize(Integer size) {
+        this.size = size;
         return this;
     }
 }

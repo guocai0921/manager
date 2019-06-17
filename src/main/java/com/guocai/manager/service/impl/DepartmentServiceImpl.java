@@ -27,4 +27,9 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     public List<Department> getDepByPid(String pid) {
         return departmentMapper.getDepByPid(pid);
     }
+
+    @Override
+    public List<Department> getAllDeps() {
+        return departmentMapper.getAllDeps();
+    }
 }

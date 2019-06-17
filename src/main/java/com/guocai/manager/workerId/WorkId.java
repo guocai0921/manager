@@ -15,13 +15,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WorkId {
 
     public static String nextId() {
-        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
-        String nextId = String.valueOf(idWorker.nextId());
-        return nextId;
+        return SnowflakeIdWorker.getId();
     }
 
     public static void main(String[] args) {
-        System.out.println(WorkId.nextId());
+        for (int i = 0; i < 100; i++) {
+            System.out.println(WorkId.nextId());
+        }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String encode = encoder.encode("pass1234");
         System.out.println(encode);

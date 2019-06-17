@@ -161,6 +161,53 @@ public class EmployeeBO extends Pager {
 
     private String keywords;
 
+    private String beginDateScope;
+
+    private Date startBeginDate;
+
+    private Date endBeginDate;
+
+    public String getBeginDateScope() {
+        return beginDateScope;
+    }
+
+    public EmployeeBO setBeginDateScope(String beginDateScope) {
+        this.beginDateScope = beginDateScope;
+        return this;
+    }
+
+    public Date getStartBeginDate() {
+        if (this.startBeginDate == null) {
+            return null;
+        }
+        return (Date) this.startBeginDate.clone();
+    }
+
+    public EmployeeBO setStartBeginDate(Date startBeginDate) {
+        if (startBeginDate != null) {
+            this.startBeginDate = (Date) startBeginDate.clone();
+        } else {
+            this.startBeginDate = null;
+        }
+        return this;
+    }
+
+    public Date getEndBeginDate() {
+        if (this.endBeginDate == null) {
+            return null;
+        }
+        return (Date) this.endBeginDate.clone();
+    }
+
+    public EmployeeBO setEndBeginDate(Date endBeginDate) {
+        if (endBeginDate != null) {
+            this.endBeginDate = (Date) endBeginDate.clone();
+        } else {
+            this.endBeginDate = null;
+        }
+        return this;
+    }
+
     public String getKeywords() {
         return keywords;
     }

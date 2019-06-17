@@ -15,4 +15,5 @@ import java.util.List;
  */
 public interface DepartmentMapper extends BaseMapper<Department> {
     List<Department> getDepByPid(String pid);
+    List<Department> getAllDeps();
 }

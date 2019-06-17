@@ -18,4 +18,8 @@
         select d1.*from sgc_department d1 where d1.`parentId`=#{pid} AND d1.enabled=true;
     </select>
 
+    <select id="getAllDeps" resultType="com.guocai.manager.entity.Department">
+        select * from sgc_department WHERE enabled=true;
+    </select>
+
 </mapper>

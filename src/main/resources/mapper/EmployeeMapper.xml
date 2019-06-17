@@ -102,9 +102,9 @@
         <if test="departmentId!=null and departmentId!=''">
             AND e.departmentId=#{departmentId}
         </if>
-<!--        <if test="startBeginDate!=null and endBeginDate!=null">
+        <if test="startBeginDate!=null and endBeginDate!=null">
             AND e.beginDate BETWEEN #{startBeginDate} AND #{endBeginDate}
-        </if>-->
+        </if>
     </select>
 
     <select id="getAllNations" resultType="com.guocai.manager.entity.Nation">

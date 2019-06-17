@@ -176,17 +176,33 @@ public class SnowflakeIdWorker {
     protected long timeGen() {
         return System.currentTimeMillis();
     }
+
+
+    private static class IdGenHolder {
+        private static final SnowflakeIdWorker instance = new SnowflakeIdWorker(0, 0);
+    }
+
+    //外部调用获取SnowFlakeUtil的实例对象，确保不可变
+    public static SnowflakeIdWorker get(){
+        return IdGenHolder.instance;
+    }
+
+    /**
+     * 获取全局唯一编码
+     */
+    public static String getId(){
+        Long id = SnowflakeIdWorker.get().nextId();
+        return id.toString();
+    }
+
     //==============================Test=============================================
 
     /**
      * 测试
      */
     public static void main(String[] args) {
-        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
-        for (int i = 0; i < 10; i++) {
-            long id = idWorker.nextId();
-            System.out.println(Long.toBinaryString(id));
-            System.out.println(id);
+        for (int i = 0; i < 100; i++) {
+            System.out.println(SnowflakeIdWorker.getId());
         }
     }
 }

@@ -13,17 +13,19 @@ import com.guocai.manager.service.IPositionService;
 import com.guocai.manager.workerId.WorkId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
+import java.util.stream.Collectors;
 
 /**
  * java类简单作用描述
@@ -71,6 +73,14 @@ public class EmpBasicController {
 
     @RequestMapping(value = "/emp", method = RequestMethod.GET)
     public Map<String, Object> getEmployeeByPage(@ApiIgnore @Valid EmployeeBO bo){
+        if (bo.getBeginDateScope() != null && bo.getBeginDateScope().contains(",")) {
+            try {
+                String[] split = bo.getBeginDateScope().split(",");
+                bo.setStartBeginDate(birthdayFormat.parse(split[0]));
+                bo.setEndBeginDate(birthdayFormat.parse(split[1]));
+            } catch (ParseException e) {
+            }
+        }
         Page<Employee> employeePage = empService.getEmployeeByPage(bo);
         Map<String, Object> map = new HashMap<>();
         map.put("emps", employeePage.getRecords());
@@ -104,7 +114,7 @@ public class EmpBasicController {
 
     @DeleteMapping("/emp/{id}")
     public ResponseMessage updateEmp(@PathVariable String id) {
-        if (empService.deleteById(id)) {
+        if (empService.deleteBatchIds(Arrays.asList(id.split(",")))) {
             return ResponseMessage.ok("删除成功!");
         }
         return ResponseMessage.error("删除失败!");
@@ -113,5 +123,21 @@ public class EmpBasicController {
     @RequestMapping(value = "/exportEmp", method = RequestMethod.GET)
     public ResponseEntity<byte[]> exportEmp() {
         return PoiUtils.exportEmp2Excel( empService.getAllEmployee());
+    }
+
+    @RequestMapping(value = "/importEmp", method = RequestMethod.POST)
+    @Transactional
+    public ResponseMessage importEmp(MultipartFile file) {
+        List<Employee> emps = PoiUtils.importEmp2List(file,
+                empService.getAllNations(), empService.getAllPolitics(),
+                departmentService.getAllDeps(), positionService.getAllPos(),
+                joblevelService.getAllJobLevels());
+        for (Employee emp : emps) {
+
+        }
+        if (empService.insertBatch(emps.stream().map(p -> p.setId(WorkId.nextId())).collect(Collectors.toList()))) {
+            return ResponseMessage.ok("导入成功!");
+        }
+        return ResponseMessage.error("导入失败!");
     }
 }
